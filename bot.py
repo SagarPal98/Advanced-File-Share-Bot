@@ -23,16 +23,19 @@ from aiohttp import web
 from Zahid.server import web_server
 
 import asyncio
-from pyrogram import idle
 from plugins.clone import restart_bots
 from Zahid.bot import StreamBot
-from Zahid.utils.keepalive import ping_server  # Your ping script imported here
+from Zahid.utils.keepalive import ping_server
 from Zahid.bot.clients import initialize_clients
-from plugins.ArticlesQuotes import schedule_daily_quotes, schedule_daily_articles
+
+# Optional: These will throw errors if ArticlesQuotes.py does not exist
+# So commenting them out for now. Uncomment only if the file exists.
+# from plugins.ArticlesQuotes import schedule_daily_quotes, schedule_daily_articles
+
 from plugins.facts import schedule_facts
 from plugins.quiz import quiz_scheduler
 from plugins.vocabulary import schedule_vocabulary
-from plugins.wonders import *
+from plugins.wonders import schedule_wonders
 from plugins.affirmation import schedule_daily
 
 
@@ -61,7 +64,7 @@ async def start():
             sys.modules["plugins." + plugin_name] = load
             print("Tactition Imported => " + plugin_name)
     
-    # Start pinging server to keep the instance alive on all platforms!
+    # Start pinging server to keep the instance alive
     asyncio.create_task(ping_server())
     
     me = await StreamBot.get_me()
@@ -76,16 +79,17 @@ async def start():
     bind_address = "0.0.0.0"
     await web.TCPSite(app, bind_address, PORT).start()
     
-
+    # Only call these if ArticlesQuotes.py exists
     # schedule_daily_quotes(StreamBot)  
     # schedule_daily_articles(StreamBot)
+    
+    # Other working plugins
     # schedule_facts(StreamBot) 
     # quiz_scheduler(StreamBot)
     # schedule_vocabulary(StreamBot) 
     schedule_wonders(StreamBot)
     schedule_daily(StreamBot)
 
-    
     if CLONE_MODE == True:
         await restart_bots()
     
