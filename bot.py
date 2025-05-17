@@ -33,10 +33,10 @@ from Zahid.bot.clients import initialize_clients
 # from plugins.ArticlesQuotes import schedule_daily_quotes, schedule_daily_articles
 
 #from plugins.facts import schedule_facts
-from plugins.quiz import quiz_scheduler
-from plugins.vocabulary import schedule_vocabulary
-from plugins.wonders import schedule_wonders
-from plugins.affirmation import schedule_daily
+#from plugins.quiz import quiz_scheduler
+#from plugins.vocabulary import schedule_vocabulary
+#from plugins.wonders import schedule_wonders
+#from plugins.affirmation import schedule_daily
 
 
 ppath = "plugins/*.py"
@@ -87,8 +87,8 @@ async def start():
     # schedule_facts(StreamBot) 
     # quiz_scheduler(StreamBot)
     # schedule_vocabulary(StreamBot) 
-    schedule_wonders(StreamBot)
-    schedule_daily(StreamBot)
+    #schedule_wonders(StreamBot)
+    #schedule_daily(StreamBot)
 
     if CLONE_MODE == True:
         await restart_bots()
